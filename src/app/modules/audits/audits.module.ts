@@ -12,6 +12,7 @@ import { FsFormModule } from '@firestitch/form';
 import { FsHtmlRendererModule } from '@firestitch/html-editor';
 
 import { AuditsComponent } from './components';
+import { FsAuditsSubjectDirective } from './directives';
 
 
 @NgModule({
@@ -31,9 +32,11 @@ import { AuditsComponent } from './components';
   ],
   declarations: [
     AuditsComponent,
+    FsAuditsSubjectDirective,
   ],
   exports: [
     AuditsComponent,
+    FsAuditsSubjectDirective,
   ],
 })
 export class FsAuditsModule { }

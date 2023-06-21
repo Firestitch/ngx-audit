@@ -39,7 +39,9 @@
 }
 
 .meta {
-  .audit-meta + .audit-meta {
-    margin-top: 20px;
+  .audit-meta {
+    + .audit-meta {
+      margin-top: 20px;
+    }
   }
 }

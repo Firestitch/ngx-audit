@@ -4,13 +4,12 @@
       Subject
     </ng-template>
     <ng-template fs-list-cell let-row="row">
-      {{ row.subjectObject.className }}
-      <div class="small">{{ row.subjectObject.id }}</div>
-      <!-- <div *ngIf="row.subjectObject.class==='work_order_template' ; else subject">
-        {{row.subjectObject.clientAccount.identifier}} - {{row.subjectObject.name}}
-      </div> -->
+      <ng-container *ngIf="subjectTemplate; else subject">
+        <ng-container [ngTemplateOutlet]="subjectTemplate" [ngTemplateOutletContext]="{ audit: row }"></ng-container>
+      </ng-container>
       <ng-template #subject>
-        <div>{{ row.subjectObject.name }}</div>
+        <div class="small">{{ row.subjectObject.className }}: {{ row.subjectObject.id }}</div>
+        {{ row.subjectObject.name }}
       </ng-template>
     </ng-template>
   </fs-list-column>
@@ -22,7 +21,7 @@
     <ng-template fs-list-cell let-row="row">
       <div class="meta">
         <div class="audit-meta" *ngFor="let auditMeta of row.auditMetas">
-          <div class="action">
+          <div class="action small">
             <ng-container [ngSwitch]="auditMeta.action">
               <ng-container *ngSwitchCase="AuditMetaAction.Remove">
                 {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}: {{row.subjectObject.id}}

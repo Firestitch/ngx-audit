@@ -1,5 +1,6 @@
 import {
-  Component, Input, ViewChild, OnInit, OnDestroy, ChangeDetectionStrategy,
+  Component, Input, ViewChild, OnInit, OnDestroy, 
+  ChangeDetectionStrategy, ContentChild, TemplateRef,
 } from '@angular/core';
 
 import { FsListConfig, FsListComponent } from '@firestitch/list';
@@ -11,6 +12,7 @@ import { map } from 'rxjs/operators';
 
 import { AuditMetaAction } from './../../../../enums';
 import { AuditMetaActions } from './../../../../consts';
+import { FsAuditsSubjectDirective } from '../../directives';
 
 
 @Component({
@@ -20,6 +22,9 @@ import { AuditMetaActions } from './../../../../consts';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuditsComponent implements OnInit, OnDestroy {
+
+  @ContentChild(FsAuditsSubjectDirective, { read: TemplateRef })
+  public subjectTemplate: TemplateRef<FsAuditsSubjectDirective>;
 
   @Input() public subjectObjectId;
   @Input() public relatedSubjectObjectId;

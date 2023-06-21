@@ -1,4 +1,15 @@
 <fs-audits
   [loadAudits]="loadAudits"
   [objectClasses]="ObjectClasses">
+
+  <!-- <ng-template let-audit="audit" fsAuditsSubject>
+    {{ audit.subjectObject.className }}
+    <div class="small">{{ audit.subjectObject.id }}</div>
+    <div *ngIf="audit.subjectObject.class==='work_order_template' ; else subject">
+      {{audit.subjectObject.clientAccount.identifier}} - {{audit.subjectObject.name}}
+    </div>
+    <ng-template #subject>
+      <div>{{ audit.subjectObject.name }}</div>
+    </ng-template>
+  </ng-template> -->
 </fs-audits>
