@@ -1,0 +1,45 @@
+
+.metas {
+  font-size: 14px;
+  list-style-type: none;
+  margin: 5px 0 0 5px;
+  padding: 0;
+
+  li {
+    margin-bottom: 3px;
+    position: relative;
+    padding-left: 12px;
+
+    &:list-child {
+      margin-bottom: 0;
+    }
+
+    &:before {
+      content: '•';
+      position: absolute;
+      left: 0;
+    }
+  }
+}
+
+:host ::ng-deep {
+  .col-created .row {
+    display: flex;
+    align-items: center;
+
+    fs-badge {
+      display: flex;
+      margin-right: 5px;
+    }
+  }
+
+  table tbody td {
+    vertical-align: top !important;
+  }
+}
+
+.meta {
+  .audit-meta + .audit-meta {
+    margin-top: 20px;
+  }
+}

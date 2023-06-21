@@ -5,12 +5,15 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { FsExampleModule } from '@firestitch/example';
 import { FsMessageModule } from '@firestitch/message';
+import { FsListModule } from '@firestitch/list';
+import { FsAuditsModule } from '@firestitch/audit';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { AppMaterialModule } from './material.module';
-import { GetComponent } from './components';
+import { AuditsComponent } from './components';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -21,12 +24,15 @@ import { GetComponent } from './components';
     AppMaterialModule,
     FormsModule,
     FsExampleModule.forRoot(),
+    FsListModule.forRoot(),
     FsMessageModule.forRoot(),
     FsMessageModule,
+    FsAuditsModule,
+    RouterModule.forRoot([]),
   ],
   declarations: [
     AppComponent,
-    GetComponent,
+    AuditsComponent,
   ],
 })
 export class PlaygroundModule {

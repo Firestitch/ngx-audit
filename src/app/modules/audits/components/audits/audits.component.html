@@ -1,0 +1,72 @@
+<fs-list [config]="config">
+  <fs-list-column *ngIf="showSubject">
+    <ng-template fs-list-header>
+      Subject
+    </ng-template>
+    <ng-template fs-list-cell let-row="row">
+      {{ row.subjectObject.className }}
+      <div class="small">{{ row.subjectObject.id }}</div>
+      <!-- <div *ngIf="row.subjectObject.class==='work_order_template' ; else subject">
+        {{row.subjectObject.clientAccount.identifier}} - {{row.subjectObject.name}}
+      </div> -->
+      <ng-template #subject>
+        <div>{{ row.subjectObject.name }}</div>
+      </ng-template>
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column>
+    <ng-template fs-list-header>
+      Detail
+    </ng-template>
+    <ng-template fs-list-cell let-row="row">
+      <div class="meta">
+        <div class="audit-meta" *ngFor="let auditMeta of row.auditMetas">
+          <div class="action">
+            <ng-container [ngSwitch]="auditMeta.action">
+              <ng-container *ngSwitchCase="AuditMetaAction.Remove">
+                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}: {{row.subjectObject.id}}
+              </ng-container>
+              <ng-container *ngSwitchCase="AuditMetaAction.Add">
+                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}: {{row.subjectObject.id}}
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} <ng-container *ngIf="auditMeta.objectId">{{objectClassNames[auditMeta.objectClass]}}: {{auditMeta.objectId}}</ng-container>
+              </ng-container>
+            </ng-container>
+          </div>
+
+          <ul class="metas" *ngIf="auditMeta.metas.length">
+            <ng-container *ngFor="let meta of auditMeta.metas">
+              <li *ngIf="meta.value || meta.name" class="meta-item">
+                {{ meta.name }}{{ meta.name && meta.value ? ': ' : ''}}
+                <ng-container *ngIf="meta.value">
+                  <fs-html-renderer [html]="meta.value"></fs-html-renderer>
+                </ng-container>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+    </ng-template>
+  </fs-list-column>
+
+  <fs-list-column name="date" title="Created" [sortable]="true" class="col-created">
+    <ng-template fs-list-cell let-row="row">
+      <div class="row">
+        <ng-container *ngIf="row.actorAccount?.avatar">
+          <fs-badge [size]="30" [image]="row.actorAccount.avatar.tiny"></fs-badge>
+        </ng-container>
+        <small class="name-date">
+          <ng-container *ngIf="row.actorAccount">
+            {{row.actorAccount.name}}
+          </ng-container>
+          <div>
+            <fs-date-ago [date]="row.date"></fs-date-ago>
+          </div>
+        </small>
+      </div>
+    </ng-template>
+  </fs-list-column>
+
+</fs-list>

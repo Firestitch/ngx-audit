@@ -1,1 +1,1 @@
-export * from './app/services';
+export * from './app/modules/audits/audits.module';
