@@ -11,7 +11,7 @@ import { FsBadgeModule } from '@firestitch/badge';
 import { FsFormModule } from '@firestitch/form';
 import { FsHtmlRendererModule } from '@firestitch/html-editor';
 
-import { AuditsComponent } from './components';
+import { FsAuditsComponent } from './components';
 import { FsAuditsSubjectDirective } from './directives';
 
 
@@ -31,11 +31,11 @@ import { FsAuditsSubjectDirective } from './directives';
     FsBadgeModule,
   ],
   declarations: [
-    AuditsComponent,
+    FsAuditsComponent,
     FsAuditsSubjectDirective,
   ],
   exports: [
-    AuditsComponent,
+    FsAuditsComponent,
     FsAuditsSubjectDirective,
   ],
 })

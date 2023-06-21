@@ -21,7 +21,7 @@ import { FsAuditsSubjectDirective } from '../../directives';
   styleUrls: ['./audits.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuditsComponent implements OnInit, OnDestroy {
+export class FsAuditsComponent implements OnInit, OnDestroy {
 
   @ContentChild(FsAuditsSubjectDirective, { read: TemplateRef })
   public subjectTemplate: TemplateRef<FsAuditsSubjectDirective>;
