@@ -96,7 +96,6 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
           subjectClientAccounts: true,
           auditMetas: true,
           auditMetaObjectClasses: true,
-          auditMetaObjectClassNames: true,
           actorAccounts: true,
           actorAccountAvatars: true,
         };
@@ -111,6 +110,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
                       const key = [
                         auditMeta.action,
                         auditMeta.objectClass,
+                        auditMeta.objectClassName,
                         auditMeta.objectId,
                         auditMeta.subject,
                       ].join(',');
@@ -135,8 +135,9 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
                       return {
                         action: parts[0],
                         objectClass: parts[1],
-                        objectId: parts[2],
-                        subject: parts[3],
+                        objectClassName: parts[2],
+                        objectId: parts[3],
+                        subject: parts[4],
                         metas: auditMetas[key],
                       };
                     });
