@@ -96,6 +96,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
           subjectClientAccounts: true,
           auditMetas: true,
           auditMetaObjectClasses: true,
+          auditMetaObjectClassNames: true,
           actorAccounts: true,
           actorAccountAvatars: true,
         };

@@ -30,7 +30,7 @@
                 {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}: {{row.subjectObject.id}}
               </ng-container>
               <ng-container *ngSwitchDefault>
-                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} <ng-container *ngIf="auditMeta.objectId">{{objectClassNames[auditMeta.objectClass]}}: {{auditMeta.objectId}}</ng-container>
+                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} <ng-container *ngIf="auditMeta.objectId">{{objectClassNames[auditMeta.objectClass] || auditMeta.objectClassName || auditMeta.objectClass}}: {{auditMeta.objectId}}</ng-container>
               </ng-container>
             </ng-container>
           </div>
