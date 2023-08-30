@@ -2,7 +2,7 @@
   "name": "@firestitch/audit",
   "title": "Audits",
   "description": "@firestitch/audit",
-  "version": "12.0.7",
+  "version": "12.0.8",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-audit"

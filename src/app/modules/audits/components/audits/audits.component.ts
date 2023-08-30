@@ -75,7 +75,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
       paging: {
         limits: [25, 50, 150, 250, 500, 1000],
       },
-      rowActions: [
+      rowActions: this.deleteAudit ? [
         {
           click: (data) => {
             return this.deleteAudit(data);
@@ -89,7 +89,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
             template: 'Are you sure you would like to delete this audit?',
           },
         },
-      ],
+      ] : [],
       group: {
         groupBy: (row) => {
           return row;
@@ -208,6 +208,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
         name: 'showObjectId',
         label: 'Show Object ID',
         type: ItemType.Checkbox,
+        default: true,
       },
     ];
   }

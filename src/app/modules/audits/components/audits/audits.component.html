@@ -16,9 +16,12 @@
                 <span>{{row.subjectObject.name}}</span>
                 <ng-container *ngIf="showObjectId">
                   <ng-container *ngIf="row.subjectObject.name">
-                    <span>:</span>
+                    <span> (</span>
                   </ng-container>
-                  <span> {{row.subjectObject.id}}</span>
+                  <span>{{row.subjectObject.id}}</span>
+                  <ng-container *ngIf="row.subjectObject.name">
+                    <span>)</span>
+                  </ng-container>
                 </ng-container>
               </div>
             </ng-template>
