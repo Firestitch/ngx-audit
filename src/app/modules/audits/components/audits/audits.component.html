@@ -1,19 +1,4 @@
 <fs-list [config]="config">
-  <!-- <fs-list-column *ngIf="showSubject">
-    <ng-template fs-list-header>
-      Subject
-    </ng-template>
-    <ng-template fs-list-cell let-row="row">
-      <ng-container *ngIf="subjectTemplate; else subject">
-        <ng-container [ngTemplateOutlet]="subjectTemplate" [ngTemplateOutletContext]="{ audit: row }"></ng-container>
-      </ng-container>
-      <ng-template #subject>
-        <div class="small">{{ row.subjectObject.className }}: {{ row.subjectObject.id }}</div>
-        {{ row.subjectObject.name }}
-      </ng-template>
-    </ng-template>
-  </fs-list-column> -->
-
   <fs-list-column>
     <ng-template fs-list-header>
       Audit
@@ -73,7 +58,7 @@
                     <span>: {{auditMeta.objectName}}</span>
                   </ng-container>
                   <ng-container *ngIf="showObjectId">
-                   <span>({{auditMeta.objectId}})</span>
+                   <span> ({{auditMeta.objectId}})</span>
                   </ng-container>
                 </ng-container>
               </ng-container>
@@ -94,23 +79,5 @@
       </div>
     </ng-template>
   </fs-list-column>
-
-  <!-- <fs-list-column name="date" title="Created" [sortable]="true" class="col-created">
-    <ng-template fs-list-cell let-row="row">
-      <div class="row">
-        <ng-container *ngIf="row.actorAccount?.avatar">
-          <fs-badge [size]="30" [image]="row.actorAccount.avatar.tiny"></fs-badge>
-        </ng-container>
-        <small class="name-date">
-          <ng-container *ngIf="row.actorAccount">
-            {{row.actorAccount.name}}
-          </ng-container>
-          <div>
-            <fs-date-ago [date]="row.date"></fs-date-ago>
-          </div>
-        </small>
-      </div>
-    </ng-template>
-  </fs-list-column> -->
 
 </fs-list>

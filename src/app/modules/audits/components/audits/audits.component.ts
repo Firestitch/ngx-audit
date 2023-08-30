@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 import { FsListConfig, FsListComponent } from '@firestitch/list';
-import { IFilterConfigItem, ItemType } from '@firestitch/filter';
+import { CheckboxItem, IFilterConfigItem, ItemType } from '@firestitch/filter';
 import { index } from '@firestitch/common';
 
 import { Observable, Subject } from 'rxjs';
@@ -69,6 +69,9 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
   private _initConfig(): void {
     this.config = {
       sort: { value: 'date', direction: 'desc' },
+      sorts: [
+        { name: 'Created', direction: 'desc', value: 'date' },
+      ],
       paging: {
         limits: [25, 50, 150, 250, 500, 1000],
       },
@@ -108,8 +111,8 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
           auditMetaObjectNames: true,
           actorAccounts: true,
           actorAccountAvatars: true,
-          
         };
+        this.showObjectId = query.showObjectId;
 
         return this.loadAudits(query)
           .pipe(
@@ -120,6 +123,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
                     .reduce((accum, auditMeta) => {
                       const key = [
                         auditMeta.action,
+                        auditMeta.objectName,
                         auditMeta.objectClass,
                         auditMeta.objectClassName,
                         auditMeta.objectId,
@@ -145,10 +149,11 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
 
                       return {
                         action: parts[0],
-                        objectClass: parts[1],
-                        objectClassName: parts[2],
-                        objectId: parts[3],
-                        subject: parts[4],
+                        objectName: parts[1],
+                        objectClass: parts[2],
+                        objectClassName: parts[3],
+                        objectId: parts[4],
+                        subject: parts[5],
                         metas: auditMetas[key],
                       };
                     });
@@ -198,6 +203,11 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
           return [{ name: 'All', value: null }]
             .concat(AuditMetaActions);
         },
+      },
+      {
+        name: 'showObjectId',
+        label: 'Show Object ID',
+        type: ItemType.Checkbox,
       },
     ];
   }
