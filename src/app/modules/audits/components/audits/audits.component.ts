@@ -41,6 +41,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
   public AuditMetaAction = AuditMetaAction;
   public auditMetaActionNames = {};
   public objectClassNames = {};
+  public showObjectId = false;
 
   private _destroy$ = new Subject();
 
@@ -86,6 +87,14 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
           },
         },
       ],
+      group: {
+        groupBy: (row) => {
+          return row;
+        },
+        compareBy: (row) => {
+          return row.id;
+        },
+      },
       filters: this._getFilters(),
       fetch: (query) => {
         query = {
@@ -96,8 +105,10 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
           subjectClientAccounts: true,
           auditMetas: true,
           auditMetaObjectClasses: true,
+          auditMetaObjectNames: true,
           actorAccounts: true,
           actorAccountAvatars: true,
+          
         };
 
         return this.loadAudits(query)

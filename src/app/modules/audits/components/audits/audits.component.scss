@@ -22,8 +22,17 @@
   }
 }
 
-:host ::ng-deep {
-  .col-created .row {
+.group-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .description {
+    flex: 1;
+  }
+
+  .created {
+    justify-content: end;
     display: flex;
     align-items: center;
 
@@ -32,16 +41,18 @@
       margin-right: 5px;
     }
   }
-
-  table tbody td {
-    vertical-align: top !important;
-  }
 }
 
 .meta {
   .audit-meta {
     + .audit-meta {
-      margin-top: 20px;
+      margin-top: 10px;
     }
+  }
+}
+
+:host ::ng-deep {
+  .fs-list-row-group {
+    background-color: #ddd;
   }
 }

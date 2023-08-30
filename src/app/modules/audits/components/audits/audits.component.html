@@ -1,5 +1,5 @@
 <fs-list [config]="config">
-  <fs-list-column *ngIf="showSubject">
+  <!-- <fs-list-column *ngIf="showSubject">
     <ng-template fs-list-header>
       Subject
     </ng-template>
@@ -12,11 +12,47 @@
         {{ row.subjectObject.name }}
       </ng-template>
     </ng-template>
-  </fs-list-column>
+  </fs-list-column> -->
 
   <fs-list-column>
     <ng-template fs-list-header>
-      Detail
+      Audit
+    </ng-template>
+    <ng-template fs-list-group-cell let-row="row">
+      <div class="group-row">
+        <div class="description">
+          <ng-container *ngIf="showSubject">
+            <ng-container *ngIf="subjectTemplate; else subject">
+              <ng-container [ngTemplateOutlet]="subjectTemplate" [ngTemplateOutletContext]="{ audit: row }"></ng-container>
+            </ng-container>
+            <ng-template #subject>
+              {{row.subjectObject.className}}
+                <div class="small object-name">
+                <span>{{row.subjectObject.name}}</span>
+                <ng-container *ngIf="showObjectId">
+                  <ng-container *ngIf="row.subjectObject.name">
+                    <span>:</span>
+                  </ng-container>
+                  <span> {{row.subjectObject.id}}</span>
+                </ng-container>
+              </div>
+            </ng-template>
+          </ng-container>
+        </div>
+        <div class="created">
+          <ng-container *ngIf="row.actorAccount?.avatar">
+            <fs-badge [size]="30" [image]="row.actorAccount.avatar.tiny"></fs-badge>
+          </ng-container>
+          <small class="name-date">
+            <ng-container *ngIf="row.actorAccount">
+              {{row.actorAccount.name}}
+            </ng-container>
+            <div>
+              <fs-date-ago [date]="row.date"></fs-date-ago>
+            </div>
+          </small>
+        </div>
+      </div>
     </ng-template>
     <ng-template fs-list-cell let-row="row">
       <div class="meta">
@@ -24,13 +60,22 @@
           <div class="action small">
             <ng-container [ngSwitch]="auditMeta.action">
               <ng-container *ngSwitchCase="AuditMetaAction.Remove">
-                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}: {{row.subjectObject.id}}
+                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}
               </ng-container>
               <ng-container *ngSwitchCase="AuditMetaAction.Add">
-                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}: {{row.subjectObject.id}}
+                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}
               </ng-container>
               <ng-container *ngSwitchDefault>
-                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} <ng-container *ngIf="auditMeta.objectId">{{objectClassNames[auditMeta.objectClass] || auditMeta.objectClassName || auditMeta.objectClass}}: {{auditMeta.objectId}}</ng-container>
+                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} 
+                <ng-container *ngIf="auditMeta.objectId">
+                  <span>{{objectClassNames[auditMeta.objectClass] || auditMeta.objectClassName || auditMeta.objectClass}}</span>
+                  <ng-container *ngIf="auditMeta.objectName">
+                    <span>: {{auditMeta.objectName}}</span>
+                  </ng-container>
+                  <ng-container *ngIf="showObjectId">
+                   <span>({{auditMeta.objectId}})</span>
+                  </ng-container>
+                </ng-container>
               </ng-container>
             </ng-container>
           </div>
@@ -50,7 +95,7 @@
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column name="date" title="Created" [sortable]="true" class="col-created">
+  <!-- <fs-list-column name="date" title="Created" [sortable]="true" class="col-created">
     <ng-template fs-list-cell let-row="row">
       <div class="row">
         <ng-container *ngIf="row.actorAccount?.avatar">
@@ -66,6 +111,6 @@
         </small>
       </div>
     </ng-template>
-  </fs-list-column>
+  </fs-list-column> -->
 
 </fs-list>

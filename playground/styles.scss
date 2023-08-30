@@ -1,3 +1,9 @@
 @import '~@firestitch/component-tools/assets/playground.scss';
 @import '~@firestitch/message/styles.scss';
 @import '../src/app/styles';
+
+
+.small, small {
+  font-size: 90%;
+  color: #727272;
+}
