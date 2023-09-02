@@ -75,6 +75,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
       paging: {
         limits: [25, 50, 150, 250, 500, 1000],
       },
+      rowHighlight: false,
       rowActions: this.deleteAudit ? [
         {
           click: (data) => {
