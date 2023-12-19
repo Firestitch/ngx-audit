@@ -140,7 +140,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
                       };
                     }, {});
 
-                  if(audit.actorAccount) {
+                  if(audit.actorAccount?.firstName && audit.actorAccount?.lastName) {
                     audit.actorAccount.name = `${audit.actorAccount.firstName} ${audit.actorAccount.lastName.substr(0, 1)}.`;
                   }
 
