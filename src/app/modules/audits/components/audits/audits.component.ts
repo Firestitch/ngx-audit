@@ -1,5 +1,5 @@
 import {
-  Component, Input, ViewChild, OnInit, OnDestroy, 
+  Component, Input, ViewChild, OnInit, OnDestroy,
   ChangeDetectionStrategy, ContentChild, TemplateRef,
 } from '@angular/core';
 
@@ -210,6 +210,11 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
         label: 'Show Object ID',
         type: ItemType.Checkbox,
         default: true,
+      },
+      {
+        name: 'date',
+        type: ItemType.DateRange,
+        label: ['From Date','To Date'],
       },
     ];
   }

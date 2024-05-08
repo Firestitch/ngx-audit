@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { AppMaterialModule } from './material.module';
 import { AuditsComponent } from './components';
 import { RouterModule } from '@angular/router';
+import { FsDatePickerModule } from '@firestitch/datepicker';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { RouterModule } from '@angular/router';
     FsMessageModule,
     FsAuditsModule,
     RouterModule.forRoot([]),
+    FsDatePickerModule.forRoot(),
   ],
   declarations: [
     AppComponent,
