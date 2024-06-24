@@ -43,3 +43,4 @@ dist/*
 /demo
 /*.code-workspace
 /docs
+/.angular

@@ -52,12 +52,20 @@
 }
 
 :host ::ng-deep {
+  fs-filter {
+    padding-bottom: 10px;
+  }
+
   .fs-list-row-group {
     background-color: #f0f0f0;
-    
-    td {
+
+    .fs-list-col {
       border-radius: 7px;
-      border: 0;
+      border: none !important;
     }
+  }
+
+  td {
+    border: none !important;
   }
 }
