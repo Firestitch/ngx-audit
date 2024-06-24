@@ -53,6 +53,11 @@
 
 :host ::ng-deep {
   .fs-list-row-group {
-    background-color: #ddd;
+    background-color: #f0f0f0;
+    
+    td {
+      border-radius: 7px;
+      border: 0;
+    }
   }
 }
