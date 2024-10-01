@@ -61,6 +61,7 @@
     "@firestitch/label": "^12.0.0",
     "@firestitch/lint": "^12.0.16",
     "@firestitch/list": "^12.14.1",
+    "@firestitch/style": "^13.1.14",
     "@firestitch/menu": "^12.0.1",
     "@firestitch/message": "^12.2.5",
     "@firestitch/popover": "^12.1.3",
