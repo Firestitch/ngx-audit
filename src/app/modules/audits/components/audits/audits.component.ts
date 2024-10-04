@@ -1,18 +1,24 @@
 import {
-  Component, Input, ViewChild, OnInit, OnDestroy,
-  ChangeDetectionStrategy, ContentChild, TemplateRef,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 
-import { FsListConfig, FsListComponent } from '@firestitch/list';
-import { CheckboxItem, IFilterConfigItem, ItemType } from '@firestitch/filter';
 import { index } from '@firestitch/common';
+import { IFilterConfigItem, ItemType } from '@firestitch/filter';
+import { FsListComponent, FsListConfig } from '@firestitch/list';
 
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AuditMetaAction } from './../../../../enums';
-import { AuditMetaActions } from './../../../../consts';
 import { FsAuditsSubjectDirective } from '../../directives';
+import { AuditMetaActions } from './../../../../consts';
+import { AuditMetaAction } from './../../../../enums';
 
 
 @Component({
@@ -75,7 +81,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
       paging: {
         limits: [25, 50, 150, 250, 500, 1000],
       },
-      rowHighlight: false,
+      rowHoverHighlight: false,
       rowActions: this.deleteAudit ? [
         {
           click: (data) => {

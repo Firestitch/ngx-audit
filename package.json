@@ -43,6 +43,7 @@
     "@angular/platform-browser": "^15.2.10",
     "@angular/platform-browser-dynamic": "^15.2.10",
     "@angular/router": "^15.2.10",
+    "@firestitch/api": "^15.0.1",
     "@firestitch/autocomplete": "^14.0.0",
     "@firestitch/autocomplete-chips": "^15.0.1",
     "@firestitch/badge": "^14.0.0",

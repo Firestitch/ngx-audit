@@ -4,17 +4,17 @@ import { BrowserModule } from '@angular/platform-browser';
 
 
 import { FsExampleModule } from '@firestitch/example';
-import { FsMessageModule } from '@firestitch/message';
 import { FsListModule } from '@firestitch/list';
-import { FsAuditsModule } from '@firestitch/audit';
+import { FsMessageModule } from '@firestitch/message';
+import { FsAuditsModule } from 'src/public_api';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppComponent } from './app.component';
-import { AppMaterialModule } from './material.module';
-import { AuditsComponent } from './components';
 import { RouterModule } from '@angular/router';
 import { FsDatePickerModule } from '@firestitch/datepicker';
+import { AppComponent } from './app.component';
+import { AuditsComponent } from './components';
+import { AppMaterialModule } from './material.module';
 
 
 @NgModule({
