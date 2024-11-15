@@ -64,7 +64,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
       this.loadAudits = (query) => {
         const path = Array.isArray(this.apiPath) ? this.apiPath : [this.apiPath];
 
-        return this._api.get(path.join('/'), query);
+        return this._api.get(path.join('/'), query, { key: null });
       };
     }
 
