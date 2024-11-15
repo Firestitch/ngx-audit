@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -53,7 +54,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
   public showObjectId = false;
 
   private _destroy$ = new Subject();
-  private _api: FsApi;
+  private _api = inject(FsApi);
 
   public reload(): void {
     this.list.reload();
