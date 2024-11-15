@@ -9,6 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 
+import { FsApi } from '@firestitch/api';
 import { index } from '@firestitch/common';
 import { IFilterConfigItem, ItemType } from '@firestitch/filter';
 import { FsListComponent, FsListConfig } from '@firestitch/list';
@@ -17,6 +18,7 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { FsAuditsSubjectDirective } from '../../directives';
+
 import { AuditMetaActions } from './../../../../consts';
 import { AuditMetaAction } from './../../../../enums';
 
@@ -33,6 +35,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
   public subjectTemplate: TemplateRef<FsAuditsSubjectDirective>;
 
   @Input() public subjectObjectId;
+  @Input() public apiPath: string | any[];
   @Input() public relatedSubjectObjectId;
   @Input() public showSubject = true;
   @Input() public objectClasses = [];
@@ -50,12 +53,32 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
   public showObjectId = false;
 
   private _destroy$ = new Subject();
+  private _api: FsApi;
 
   public reload(): void {
     this.list.reload();
   }
 
   public ngOnInit(): void {
+    if(!this.loadAudits && this.apiPath) {
+      this.loadAudits = (query) => {
+        const path = Array.isArray(this.apiPath) ? this.apiPath : [this.apiPath];
+
+        return this._api.get(path.join('/'), query);
+      };
+    }
+
+    if(!this.deleteAudit && this.apiPath) {
+      this.deleteAudit = (audit) => {
+        const path = [
+          ...(Array.isArray(this.apiPath) ? this.apiPath : [this.apiPath]),
+          audit.id,
+        ];
+
+        return this._api.delete(path.join('/'), audit);
+      };
+    }
+
     this._initConfig();
     this.objectClassNames = index(this.objectClasses, 'value', 'name');
     this.auditMetaActionNames = this.auditMetaActions
