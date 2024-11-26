@@ -39,6 +39,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
   @Input() public apiPath: string | any[];
   @Input() public relatedSubjectObjectId;
   @Input() public showSubject = true;
+  @Input() public showDelete = false;
   @Input() public objectClasses = [];
   @Input() public auditMetaActions = AuditMetaActions;
   @Input() public loadAudits: (query) => Observable<{ audits: any[]; paging: any }>;
@@ -106,13 +107,13 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
         limits: [25, 50, 150, 250, 500, 1000],
       },
       rowHoverHighlight: false,
-      rowActions: this.deleteAudit ? [
+      rowActions: [
         {
           click: (data) => {
             return this.deleteAudit(data);
           },
           show: () => {
-            return !!this.deleteAudit;
+            return this.showDelete && !!this.deleteAudit;
           },
           label: 'Delete',
           remove: {
@@ -120,7 +121,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
             template: 'Are you sure you would like to delete this audit?',
           },
         },
-      ] : [],
+      ],
       group: {
         groupBy: (row) => {
           return row;
