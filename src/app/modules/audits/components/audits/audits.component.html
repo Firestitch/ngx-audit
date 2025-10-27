@@ -3,35 +3,34 @@
     <ng-template fs-list-group-cell let-row="row">
       <div class="group-row">
         <div class="description">
-          <ng-container *ngIf="showSubject">
-            <ng-container *ngIf="subjectTemplate; else subject">
+          @if (showSubject) {
+            @if (subjectTemplate) {
               <ng-container [ngTemplateOutlet]="subjectTemplate" [ngTemplateOutletContext]="{ audit: row }"></ng-container>
-            </ng-container>
-            <ng-template #subject>
+            } @else {
               {{row.subjectObject.className}}
-                <div class="small object-name">
+              <div class="small object-name">
                 <span>{{row.subjectObject.name}}</span>
-                <ng-container *ngIf="showObjectId">
-                  <ng-container *ngIf="row.subjectObject.name">
+                @if (showObjectId) {
+                  @if (row.subjectObject.name) {
                     <span> (</span>
-                  </ng-container>
+                  }
                   <span>{{row.subjectObject.id}}</span>
-                  <ng-container *ngIf="row.subjectObject.name">
+                  @if (row.subjectObject.name) {
                     <span>)</span>
-                  </ng-container>
-                </ng-container>
+                  }
+                }
               </div>
-            </ng-template>
-          </ng-container>
+            }
+          }
         </div>
         <div class="created">
-          <ng-container *ngIf="row.actorAccount?.avatar">
+          @if (row.actorAccount?.avatar) {
             <fs-badge [size]="30" [image]="row.actorAccount.avatar.tiny"></fs-badge>
-          </ng-container>
+          }
           <small class="name-date">
-            <ng-container *ngIf="row.actorAccount">
+            @if (row.actorAccount) {
               {{row.actorAccount.name}}
-            </ng-container>
+            }
             <div>
               <fs-date-ago [date]="row.date"></fs-date-ago>
             </div>
@@ -41,41 +40,46 @@
     </ng-template>
     <ng-template fs-list-cell let-row="row">
       <div class="meta">
-        <div class="audit-meta" *ngFor="let auditMeta of row.auditMetas">
-          <div class="action small">
-            <ng-container [ngSwitch]="auditMeta.action">
-              <ng-container *ngSwitchCase="AuditMetaAction.Remove">
-                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}
-              </ng-container>
-              <ng-container *ngSwitchCase="AuditMetaAction.Add">
-                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}
-              </ng-container>
-              <ng-container *ngSwitchDefault>
-                {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} 
-                <ng-container *ngIf="auditMeta.objectId">
-                  <span>{{objectClassNames[auditMeta.objectClass] || auditMeta.objectClassName || auditMeta.objectClass}}</span>
-                  <ng-container *ngIf="auditMeta.objectName">
-                    <span>: {{auditMeta.objectName}}</span>
-                  </ng-container>
-                  <ng-container *ngIf="showObjectId">
-                   <span> ({{auditMeta.objectId}})</span>
-                  </ng-container>
-                </ng-container>
-              </ng-container>
-            </ng-container>
+        @for (auditMeta of row.auditMetas; track auditMeta) {
+          <div class="audit-meta">
+            <div class="action small">
+              @switch (auditMeta.action) {
+                @case (AuditMetaAction.Remove) {
+                  {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}
+                }
+                @case (AuditMetaAction.Add) {
+                  {{auditMetaActionNames[auditMeta.action] || auditMeta.action}} {{row.subjectObject.className}}
+                }
+                @default {
+                  {{auditMetaActionNames[auditMeta.action] || auditMeta.action}}
+                  @if (auditMeta.objectId) {
+                    <span>{{objectClassNames[auditMeta.objectClass] || auditMeta.objectClassName || auditMeta.objectClass}}</span>
+                    @if (auditMeta.objectName) {
+                      <span>: {{auditMeta.objectName}}</span>
+                    }
+                    @if (showObjectId) {
+                      <span> ({{auditMeta.objectId}})</span>
+                    }
+                  }
+                }
+              }
+            </div>
+            @if (auditMeta.metas.length) {
+              <ul class="metas">
+                @for (meta of auditMeta.metas; track meta) {
+                  @if (meta.value || meta.name) {
+                    <li class="meta-item">
+                      {{ meta.name }}{{ meta.name && meta.value ? ': ' : ''}}
+                      @if (meta.value) {
+                        <fs-html-renderer [html]="meta.value"></fs-html-renderer>
+                      }
+                    </li>
+                  }
+                }
+              </ul>
+            }
           </div>
-
-          <ul class="metas" *ngIf="auditMeta.metas.length">
-            <ng-container *ngFor="let meta of auditMeta.metas">
-              <li *ngIf="meta.value || meta.name" class="meta-item">
-                {{ meta.name }}{{ meta.name && meta.value ? ': ' : ''}}
-                <ng-container *ngIf="meta.value">
-                  <fs-html-renderer [html]="meta.value"></fs-html-renderer>
-                </ng-container>
-              </li>
-            </ng-container>
-          </ul>
-        </div>
+        }
       </div>
     </ng-template>
   </fs-list-column>
