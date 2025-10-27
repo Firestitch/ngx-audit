@@ -1,7 +1,5 @@
 import { query } from '@angular/animations';
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 
 import { FsMessage } from '@firestitch/message';
 import { ObjectClasses } from 'playground/app/consts/object-classes.const';
@@ -18,14 +16,11 @@ import { FsAuditsComponent } from '../../../../src/app/modules/audits/components
     imports: [FsAuditsComponent],
 })
 export class AuditsComponent {
+  private _message = inject(FsMessage);
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   public ObjectClasses = ObjectClasses;
-
-  constructor(
-    private _message: FsMessage,
-    private _cdRef: ChangeDetectorRef,
-  ) {
-  }
 
   public loadAudits = (query) => {
     return of({
