@@ -6,13 +6,16 @@ import {
 import { FsMessage } from '@firestitch/message';
 import { ObjectClasses } from 'playground/app/consts/object-classes.const';
 import { of } from 'rxjs';
+import { FsAuditsComponent } from '../../../../src/app/modules/audits/components/audits/audits.component';
 
 
 @Component({
-  selector: 'app-audits',
-  templateUrl: './audits.component.html',
-  styleUrls: ['./audits.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-audits',
+    templateUrl: './audits.component.html',
+    styleUrls: ['./audits.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FsAuditsComponent],
 })
 export class AuditsComponent {
 

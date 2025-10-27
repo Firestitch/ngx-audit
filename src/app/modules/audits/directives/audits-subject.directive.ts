@@ -2,7 +2,8 @@ import { Directive } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsAuditsSubject]',
+    selector: '[fsAuditsSubject]',
+    standalone: true,
 })
 export class FsAuditsSubjectDirective {
 

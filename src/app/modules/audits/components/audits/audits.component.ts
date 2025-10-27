@@ -13,7 +13,7 @@ import {
 import { FsApi } from '@firestitch/api';
 import { index } from '@firestitch/common';
 import { IFilterConfigItem, ItemType } from '@firestitch/filter';
-import { FsListComponent, FsListConfig } from '@firestitch/list';
+import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
 
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -22,13 +22,25 @@ import { FsAuditsSubjectDirective } from '../../directives';
 
 import { AuditMetaActions } from './../../../../consts';
 import { AuditMetaAction } from './../../../../enums';
+import { NgTemplateOutlet } from '@angular/common';
+import { FsBadgeModule } from '@firestitch/badge';
+import { FsDateModule } from '@firestitch/date';
+import { FsHtmlRendererModule } from '@firestitch/html-editor';
 
 
 @Component({
-  selector: 'fs-audits',
-  templateUrl: './audits.component.html',
-  styleUrls: ['./audits.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-audits',
+    templateUrl: './audits.component.html',
+    styleUrls: ['./audits.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsListModule,
+        NgTemplateOutlet,
+        FsBadgeModule,
+        FsDateModule,
+        FsHtmlRendererModule,
+    ],
 })
 export class FsAuditsComponent implements OnInit, OnDestroy {
 
