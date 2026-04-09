@@ -4,6 +4,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FsMessage } from '@firestitch/message';
 import { ObjectClasses } from 'playground/app/consts/object-classes.const';
 import { of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 import { FsAuditsComponent } from '../../../../src/app/modules/audits/components/audits/audits.component';
 
 
@@ -21,6 +23,12 @@ export class AuditsComponent {
 
 
   public ObjectClasses = ObjectClasses;
+
+  public saveAudit = (data: { subjectObjectId: unknown; text: string }) => {
+    return of(null).pipe(
+      tap(() => this._message.success('Note saved')),
+    );
+  };
 
   public loadAudits = (query) => {
     return of({

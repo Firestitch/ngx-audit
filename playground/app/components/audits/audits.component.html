@@ -1,7 +1,9 @@
 <fs-audits
-  [loadAudits]="loadAudits"
-  [objectClasses]="ObjectClasses">
-
+    [loadAudits]="loadAudits"
+    [objectClasses]="ObjectClasses"
+    [showCreate]="true"
+    [subjectObjectId]="14001"
+    [saveAudit]="saveAudit">
   <!-- <ng-template let-audit="audit" fsAuditsSubject>
     {{ audit.subjectObject.className }}
     <div class="small">{{ audit.subjectObject.id }}</div>

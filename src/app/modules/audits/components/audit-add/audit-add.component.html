@@ -1,0 +1,38 @@
+<fs-dialog>
+  <fs-dialog-title [close]="true">
+    Add Note
+  </fs-dialog-title>
+  <form
+      fsForm
+      [submit]="save"
+      [confirm]="false">
+    <mat-dialog-content>
+      <mat-form-field class="full-width">
+        <mat-label>
+          Note
+        </mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="text"
+          name="text"
+          required
+          rows="4">
+        </textarea>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button
+          type="submit"
+          mat-button
+          color="primary">
+        Add
+      </button>
+      <button
+          type="button"
+          mat-button
+          mat-dialog-close>
+        Cancel
+      </button>
+    </mat-dialog-actions>
+  </form>
+</fs-dialog>
