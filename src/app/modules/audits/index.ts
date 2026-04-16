@@ -1,1 +1,1 @@
-export * from './audit-list.module';
+export * from './audits.module';

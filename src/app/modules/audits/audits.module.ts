@@ -16,4 +16,4 @@ import { FsAuditsSubjectDirective } from './directives/audits-subject.directive'
     FsAuditsSubjectDirective,
   ],
 })
-export class FsAuditListModule {}
+export class FsAuditsModule {}
