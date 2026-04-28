@@ -7,7 +7,7 @@
             @if (subjectTemplate) {
               <ng-container [ngTemplateOutlet]="subjectTemplate" [ngTemplateOutletContext]="{ audit: row }"></ng-container>
             } @else {
-              {{row.subjectObject.className}}
+              {{row.subjectObject.prettyClass || row.subjectObject.className}}
               <div class="small object-name">
                 <span>{{row.subjectObject.name}}</span>
                 @if (showObjectId) {
