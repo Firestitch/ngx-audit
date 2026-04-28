@@ -213,24 +213,24 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
           map((response) => {
             return {
               data: response.audits.map((audit) => {
-                const auditMetas = audit.auditMetas.reduce(
-                  (accum, auditMeta) => {
-                    const key = [
-                      auditMeta.action,
-                      auditMeta.objectName,
-                      auditMeta.objectClass,
-                      auditMeta.objectClassName,
-                      auditMeta.objectId,
-                      auditMeta.subject,
-                    ].join(",");
-
-                    return {
-                      ...accum,
-                      [key]: [...(accum[key] || []), auditMeta],
-                    };
-                  },
-                  {},
-                );
+                const groups = new Map<string, any>();
+                for (const auditMeta of audit.auditMetas) {
+                  const key = JSON.stringify([
+                    auditMeta.action,
+                    auditMeta.objectName,
+                    auditMeta.objectClass,
+                    auditMeta.objectClassName,
+                    auditMeta.objectId,
+                    auditMeta.subject,
+                  ]);
+                  let group = groups.get(key);
+                  if (!group) {
+                    group = { ...auditMeta, metas: [] };
+                    groups.set(key, group);
+                  }
+                  group.metas.push(auditMeta);
+                }
+                audit.auditMetas = Array.from(groups.values());
 
                 if (
                   audit.actorAccount?.firstName &&
@@ -238,20 +238,6 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
                 ) {
                   audit.actorAccount.name = `${audit.actorAccount.firstName} ${audit.actorAccount.lastName.substr(0, 1)}.`;
                 }
-
-                audit.auditMetas = Object.keys(auditMetas).map((key) => {
-                  const parts = key.split(",");
-
-                  return {
-                    action: parts[0],
-                    objectName: parts[1],
-                    objectClass: parts[2],
-                    objectClassName: parts[3],
-                    objectId: parts[4],
-                    subject: parts[5],
-                    metas: auditMetas[key],
-                  };
-                });
 
                 return audit;
               }),
