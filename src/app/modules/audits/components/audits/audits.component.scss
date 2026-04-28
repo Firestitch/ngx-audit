@@ -38,7 +38,13 @@
 
     fs-badge {
       display: flex;
-      margin-right: 5px;
+      margin-left: 5px;
+    }
+
+    .name-date {
+      display: flex;
+      flex-direction: column;
+      line-height: normal;
     }
   }
 }

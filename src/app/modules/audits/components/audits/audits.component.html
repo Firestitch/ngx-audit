@@ -13,27 +13,16 @@
               </ng-container>
             } @else {
               <ng-container
-                [ngTemplateOutlet]="subjectObjectClassName"
-                [ngTemplateOutletContext]="{ subjectObject: row.subjectObject }">
+                [ngTemplateOutlet]="objectClassName"
+                [ngTemplateOutletContext]="{ objectClass: row.subjectObject.class, objectClassName: row.subjectObject.className }">
               </ng-container>
               <div class="small object-name">
-                <span>
-                  {{ row.subjectObject.name }}
-                </span>
+                {{ row.subjectObject.name }}
                 @if (showObjectId) {
                   @if (row.subjectObject.name) {
-                    <span>
-                      (
-                    </span>
+                    &middot;
                   }
-                  <span>
-                    {{ row.subjectObject.id }}
-                  </span>
-                  @if (row.subjectObject.name) {
-                    <span>
-                      )
-                    </span>
-                  }
+                  {{ row.subjectObject.id }}
                 }
               </div>
             }
@@ -50,9 +39,7 @@
             @if (row.actorAccount) {
               {{ row.actorAccount.name }}
             }
-            <div>
-              <fs-date-ago [date]="row.date"></fs-date-ago>
-            </div>
+            <fs-date-ago [date]="row.date"></fs-date-ago>
           </small>
         </div>
       </div>
@@ -64,32 +51,30 @@
         @for (auditMeta of row.auditMetas; track auditMeta) {
           <div class="audit-meta">
             <div class="action small">
+              <ng-container
+                [ngTemplateOutlet]="auditMetaActionName"
+                [ngTemplateOutletContext]="{ auditMeta: auditMeta }">
+              </ng-container>
               @switch (auditMeta.action) {
                 @case (AuditMetaAction.Remove) {
                   <ng-container
-                    [ngTemplateOutlet]="auditMetaActionName"
-                    [ngTemplateOutletContext]="{ auditMeta: auditMeta }">
-                  </ng-container>
-                  <ng-container
-                    [ngTemplateOutlet]="subjectObjectClassName"
-                    [ngTemplateOutletContext]="{ subjectObject: row.subjectObject }">
+                    [ngTemplateOutlet]="objectClassName"
+                    [ngTemplateOutletContext]="{ objectClass: auditMeta.objectClass, objectClassName: auditMeta.objectClassName }">
                   </ng-container>
                 }
                 @case (AuditMetaAction.Add) {
                   <ng-container
-                    [ngTemplateOutlet]="auditMetaActionName"
-                    [ngTemplateOutletContext]="{ auditMeta: auditMeta }">
-                  </ng-container>
-                  <ng-container
-                    [ngTemplateOutlet]="subjectObjectClassName"
-                    [ngTemplateOutletContext]="{ subjectObject: row.subjectObject }">
+                    [ngTemplateOutlet]="objectClassName"
+                    [ngTemplateOutletContext]="{ objectClass: auditMeta.objectClass, objectClassName: auditMeta.objectClassName }">
                   </ng-container>
                 }
                 @default {
-                  {{ auditMetaActionNames[auditMeta.action] || auditMeta.action }}
                   @if (auditMeta.objectId) {
                     <span>
-                      {{ objectClassNames[auditMeta.objectClass] || auditMeta.objectClassName || auditMeta.objectClass }}
+                      <ng-container
+                        [ngTemplateOutlet]="objectClassName"
+                        [ngTemplateOutletContext]="{ objectClass: auditMeta.objectClass, objectClassName: auditMeta.objectClassName }">
+                      </ng-container>
                     </span>
                     @if (auditMeta.objectName) {
                       <span>
@@ -126,9 +111,10 @@
   </fs-list-column>
 </fs-list>
 <ng-template
-    #subjectObjectClassName
-    let-subjectObject="subjectObject">
-  {{ subjectObject.className || subjectObject.class }}
+    #objectClassName
+    let-objectClass="objectClass"
+    let-objectClassName="objectClassName">
+  {{ objectClassNames[objectClass] || objectClassName || objectClass }}
 </ng-template>
 <ng-template
     #auditMetaActionName
