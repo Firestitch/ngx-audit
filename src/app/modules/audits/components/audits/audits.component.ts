@@ -13,7 +13,13 @@ import {
 import { FsApi } from "@firestitch/api";
 import { index } from "@firestitch/common";
 import { IFilterConfigItem, ItemType } from "@firestitch/filter";
-import { FsListAction, FsListComponent, FsListConfig, FsListModule } from "@firestitch/list";
+import {
+  FsListAction,
+  FsListComponent,
+  FsListConfig,
+  FsListModule,
+  PaginationStrategy,
+} from "@firestitch/list";
 
 import { Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
@@ -139,8 +145,14 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
     this.config = {
       sort: { value: "date", direction: "desc" },
       sorts: [{ name: "Created", direction: "desc", value: "date" }],
+      //Many rather than the default paging strategy: the audits table grows without bound, so the
+      //`recordCount` that Page/Offset send on every fetch is a COUNT(*) over the whole filtered
+      //set. On a table of ~5.6M fund audits that count takes ~22s while the 25 rows it decorates
+      //take ~0.1s. Many drops recordCount and renders the total as an on-demand "many" link, so
+      //nobody pays for a number they did not ask for.
       paging: {
         limits: [25, 50, 150, 250, 500, 1000],
+        strategy: PaginationStrategy.Many,
       },
       rowHoverHighlight: false,
       actions: this.actions,
