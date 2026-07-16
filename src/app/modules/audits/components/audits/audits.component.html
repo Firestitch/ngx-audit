@@ -18,12 +18,10 @@
               </ng-container>
               <div class="small object-name">
                 {{ row.subjectObject.name }}
-                @if (showObjectId) {
-                  @if (row.subjectObject.name) {
-                    &middot;
-                  }
-                  {{ row.subjectObject.id }}
+                @if (row.subjectObject.name) {
+                  &middot;
                 }
+                {{ row.subjectObject.id }}
               </div>
             }
           }
@@ -81,11 +79,9 @@
                         : {{ auditMeta.objectName }}
                       </span>
                     }
-                    @if (showObjectId) {
-                      <span>
-                        ({{ auditMeta.objectId }})
-                      </span>
-                    }
+                    <span>
+                      ({{ auditMeta.objectId }})
+                    </span>
                   }
                 }
               }

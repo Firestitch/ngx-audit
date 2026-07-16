@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { FsExampleModule } from '@firestitch/example';
 import { FsListModule } from '@firestitch/list';
 import { FsMessageModule } from '@firestitch/message';
+import { FsStoreModule } from '@firestitch/store';
 import { provideRouter } from '@angular/router';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { AppComponent } from './app/app.component';
@@ -19,7 +20,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, FormsModule, FsExampleModule.forRoot(), FsListModule.forRoot(), FsMessageModule.forRoot(), FsMessageModule, FsDatePickerModule.forRoot()),
+        importProvidersFrom(BrowserModule, FormsModule, FsExampleModule.forRoot(), FsListModule.forRoot(), FsMessageModule.forRoot(), FsMessageModule, FsDatePickerModule.forRoot(), FsStoreModule.forRoot()),
         provideAnimations(),
         provideRouter([]),
     ]

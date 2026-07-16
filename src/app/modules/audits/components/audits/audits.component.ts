@@ -13,13 +13,12 @@ import {
 import { FsApi } from "@firestitch/api";
 import { index } from "@firestitch/common";
 import { IFilterConfigItem, ItemType } from "@firestitch/filter";
-import { FsListComponent, FsListConfig, FsListModule } from "@firestitch/list";
+import { FsListAction, FsListComponent, FsListConfig, FsListModule } from "@firestitch/list";
 
 import { Observable, Subject } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { map } from "rxjs/operators";
 
 import { FsAuditsSubjectDirective } from "../../directives";
-import { FsAuditAddComponent } from "../audit-add/audit-add.component";
 
 import { NgTemplateOutlet } from "@angular/common";
 import { FsBadgeModule } from "@firestitch/badge";
@@ -53,6 +52,9 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
   @Input() public relatedSubjectObjectId;
   @Input() public showSubject = true;
   @Input() public showDelete = false;
+  @Input() public actions: FsListAction[] = [];
+  @Input() public showSubjectTypeFilter = true;
+  @Input() public showDetailTypeFilter = true;
   /**
    * Shows the **Add Note** list action when `true`. The action only appears if
    * {@link saveAudit} is set (including the default `POST` to {@link apiPath} when `apiPath` is provided).
@@ -81,7 +83,6 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
   public AuditMetaAction = AuditMetaAction;
   public auditMetaActionNames = {};
   public objectClassNames = {};
-  public showObjectId = false;
 
   private _destroy$ = new Subject();
   private _api = inject(FsApi);
@@ -146,30 +147,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
         limits: [25, 50, 150, 250, 500, 1000],
       },
       rowHoverHighlight: false,
-      actions: [
-        {
-          label: "Add Note",
-          primary: true,
-          show: () => this.showCreate && !!this.saveAudit,
-          click: () => {
-            this._dialog
-              .open(FsAuditAddComponent, {
-                width: "500px",
-                data: {
-                  subjectObjectId: this.subjectObjectId,
-                  saveAudit: this.saveAudit,
-                },
-              })
-              .afterClosed()
-              .pipe(takeUntil(this._destroy$))
-              .subscribe((result) => {
-                if (result) {
-                  this.list.reload();
-                }
-              });
-          },
-        },
-      ],
+      actions: this.actions,
       rowActions: [
         {
           click: (data) => {
@@ -207,7 +185,6 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
           actorAccounts: true,
           actorAccountAvatars: true,
         };
-        this.showObjectId = query.showObjectId;
 
         return this.loadAudits(query).pipe(
           map((response) => {
@@ -257,13 +234,27 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
         label: "Search",
       },
       {
+        name: "date",
+        type: ItemType.DateRange,
+        label: ["From Date", "To Date"],
+      },
+      {
+        name: "action",
+        type: ItemType.Select,
+        label: "Action",
+        multiple: true,
+        values: () => {
+          return AuditMetaActions;
+        },
+      },
+      {
         name: "subjectObjectClass",
         type: ItemType.Select,
         label: "Subject Type",
         values: () => {
           return [{ name: "All", value: null }].concat(this.objectClasses);
         },
-        hide: this.objectClasses.length === 0,
+        hide: this.objectClasses.length === 0 || !this.showSubjectTypeFilter,  
       },
       {
         name: "auditMetaObjectClass",
@@ -272,26 +263,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
         values: () => {
           return [{ name: "All", value: null }].concat(this.objectClasses);
         },
-        hide: this.objectClasses.length === 0,
-      },
-      {
-        name: "action",
-        type: ItemType.Select,
-        label: "Action",
-        values: () => {
-          return [{ name: "All", value: null }].concat(AuditMetaActions);
-        },
-      },
-      {
-        name: "showObjectId",
-        label: "Show Object ID",
-        type: ItemType.Checkbox,
-        default: true,
-      },
-      {
-        name: "date",
-        type: ItemType.DateRange,
-        label: ["From Date", "To Date"],
+        hide: this.objectClasses.length === 0 || !this.showDetailTypeFilter,
       },
     ];
   }
