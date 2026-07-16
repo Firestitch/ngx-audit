@@ -23,7 +23,6 @@ import { FsAuditsSubjectDirective } from "../../directives";
 import { NgTemplateOutlet } from "@angular/common";
 import { FsBadgeModule } from "@firestitch/badge";
 import { FsDateModule } from "@firestitch/date";
-import { FsDialog } from "@firestitch/dialog";
 import { FsHtmlRendererModule } from "@firestitch/html-editor";
 import { AuditMetaActions } from "./../../../../consts";
 import { AuditMetaAction } from "./../../../../enums";
@@ -48,7 +47,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
 
   /** Subject entity id; forwarded to {@link saveAudit} and the add-note dialog. */
   @Input() public subjectObjectId;
-  @Input() public apiPath: string | any[];
+  @Input() public apiPath: string | any[] = ['audits']
   @Input() public relatedSubjectObjectId;
   @Input() public showSubject = true;
   @Input() public showDelete = false;
@@ -60,11 +59,19 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
    * {@link saveAudit} is set (including the default `POST` to {@link apiPath} when `apiPath` is provided).
    */
   @Input() public showCreate = false;
-  @Input() public objectClasses = [];
+  @Input() public objectClasses: { name: string; value: string }[] = [];
+  @Input() public subjectObjectClasses: string[] = [];
   @Input() public auditMetaActions = AuditMetaActions;
   @Input() public loadAudits: (
     query,
-  ) => Observable<{ audits: any[]; paging: any }>;
+  ) => Observable<{ audits: any[]; paging: any }>=  (query) => {
+    const path = Array.isArray(this.apiPath)
+      ? this.apiPath
+      : [this.apiPath];
+
+    return this._api.get(path.join("/"), query, { key: null });
+  };
+
   @Input() public deleteAudit: (audit) => Observable<any>;
   /**
    * Persists a manual note from the Add Note dialog. Return an observable that emits when the save
@@ -86,23 +93,12 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject();
   private _api = inject(FsApi);
-  private _dialog = inject(FsDialog);
 
   public reload(): void {
     this.list.reload();
   }
 
   public ngOnInit(): void {
-    if (!this.loadAudits && this.apiPath) {
-      this.loadAudits = (query) => {
-        const path = Array.isArray(this.apiPath)
-          ? this.apiPath
-          : [this.apiPath];
-
-        return this._api.get(path.join("/"), query, { key: null });
-      };
-    }
-
     if (!this.deleteAudit && this.apiPath) {
       this.deleteAudit = (audit) => {
         const path = [
@@ -186,6 +182,10 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
           actorAccountAvatars: true,
         };
 
+        if(this.subjectObjectClasses.length > 0) {
+          query.subjectObjectClass = this.subjectObjectClasses.join(',');
+        }
+
         return this.loadAudits(query).pipe(
           map((response) => {
             return {
@@ -263,7 +263,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
         values: () => {
           return [{ name: "All", value: null }].concat(this.objectClasses);
         },
-        hide: this.objectClasses.length === 0 || !this.showDetailTypeFilter,
+        hide: !this.showDetailTypeFilter,
       },
     ];
   }
