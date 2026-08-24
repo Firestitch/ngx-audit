@@ -4,6 +4,7 @@ import { environment } from '../environments/environment';
 import { FsExampleModule } from '@firestitch/example';
 import { AuditsActionsNoteComponent } from './components/audits-actions-note/audits-actions-note.component';
 import { AuditsActionsComponent } from './components/audits-actions/audits-actions.component';
+import { AuditsNoActionsComponent } from './components/audits-no-actions/audits-no-actions.component';
 import { AuditsComponent } from './components/audits/audits.component';
 
 
@@ -13,6 +14,7 @@ import { AuditsComponent } from './components/audits/audits.component';
     standalone: true,
     imports: [
         FsExampleModule,
+        AuditsNoActionsComponent,
         AuditsComponent,
         AuditsActionsComponent,
         AuditsActionsNoteComponent,
