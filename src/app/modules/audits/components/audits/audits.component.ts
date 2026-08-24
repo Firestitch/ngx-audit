@@ -12,6 +12,7 @@ import {
 
 import { FsApi } from "@firestitch/api";
 import { index } from "@firestitch/common";
+import { FsDialog } from "@firestitch/dialog";
 import { IFilterConfigItem, ItemType } from "@firestitch/filter";
 import {
   FsListAction,
@@ -22,9 +23,10 @@ import {
 } from "@firestitch/list";
 
 import { Observable, Subject } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, takeUntil } from "rxjs/operators";
 
 import { FsAuditsSubjectDirective } from "../../directives";
+import { FsAuditAddComponent } from "../audit-add/audit-add.component";
 
 import { NgTemplateOutlet } from "@angular/common";
 import { FsBadgeModule } from "@firestitch/badge";
@@ -99,6 +101,7 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject();
   private _api = inject(FsApi);
+  private _dialog = inject(FsDialog);
 
   public reload(): void {
     this.list.reload();
@@ -155,7 +158,34 @@ export class FsAuditsComponent implements OnInit, OnDestroy {
         strategy: PaginationStrategy.Many,
       },
       rowHoverHighlight: false,
-      actions: this.actions,
+      //Host-supplied actions first, Add Note last: the host owns the leading slots so its own
+      //actions keep the order it declared them in. A host passing its own primary action alongside
+      //showCreate would render two filled buttons.
+      actions: [
+        ...this.actions,
+        {
+          label: "Add Note",
+          primary: true,
+          show: () => this.showCreate && !!this.saveAudit,
+          click: () => {
+            this._dialog
+              .open(FsAuditAddComponent, {
+                width: "500px",
+                data: {
+                  subjectObjectId: this.subjectObjectId,
+                  saveAudit: this.saveAudit,
+                },
+              })
+              .afterClosed()
+              .pipe(takeUntil(this._destroy$))
+              .subscribe((result) => {
+                if (result) {
+                  this.list.reload();
+                }
+              });
+          },
+        },
+      ],
       rowActions: [
         {
           click: (data) => {
