@@ -18,9 +18,6 @@ import { FsAuditsComponent } from '../../../../src/app/modules/audits/components
     imports: [FsAuditsComponent],
 })
 export class AuditsComponent {
-  private _message = inject(FsMessage);
-
-
   public ObjectClasses = ObjectClasses;
 
   public saveAudit = (data: { subjectObjectId: unknown; text: string }) => {
@@ -32,4 +29,6 @@ export class AuditsComponent {
   public loadAudits = () => {
     return of(Audits);
   };
+
+  private _message = inject(FsMessage);
 }

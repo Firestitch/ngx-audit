@@ -17,9 +17,6 @@ import { FsAuditsComponent } from '../../../../src/app/modules/audits/components
     imports: [FsAuditsComponent],
 })
 export class AuditsActionsComponent {
-  private _message = inject(FsMessage);
-
-
   public ObjectClasses = ObjectClasses;
 
   // showCreate is left off, so Add Note is hidden and only these two render.
@@ -38,4 +35,6 @@ export class AuditsActionsComponent {
   public loadAudits = () => {
     return of(Audits);
   };
+
+  private _message = inject(FsMessage);
 }

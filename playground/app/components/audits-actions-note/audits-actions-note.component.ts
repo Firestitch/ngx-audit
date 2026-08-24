@@ -18,9 +18,6 @@ import { FsAuditsComponent } from '../../../../src/app/modules/audits/components
     imports: [FsAuditsComponent],
 })
 export class AuditsActionsNoteComponent {
-  private _message = inject(FsMessage);
-
-
   public ObjectClasses = ObjectClasses;
 
   // These render first, in declared order; the library appends Add Note after them.
@@ -45,4 +42,6 @@ export class AuditsActionsNoteComponent {
   public loadAudits = () => {
     return of(Audits);
   };
+
+  private _message = inject(FsMessage);
 }
